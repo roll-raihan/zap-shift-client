@@ -24,12 +24,13 @@ const HowItWorks = () => {
 
     return (
         <div className='m-10'>
-            <h2 className='text-2xl font-bold'>How It Works</h2>
+            <h2 className='text-2xl font-bold my-3'>How It Works</h2>
             <div className='grid justify-center items-center gap-6 md:grid-cols-2 lg:grid-cols-4'>
                 {
                     objs.map((obj) =>
-                        <div key={obj.id} className='bg-[#FFFFFF] text-black rounded-2xl border p-8'>
-                            <FaTruck className='w-[30px] h-[35px] mb-2'/>
+                        <div key={obj.id} className='bg-[#FFFFFF]
+                            rounded-2xl p-8 shadow-md overflow-hidden border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer'>
+                            <FaTruck className='w-[30px] h-[35px] mb-2' />
                             <h3 className='font-bold mb-2'>{obj.name}</h3>
                             <p className=''>From personal packages to business shipments — we deliver on time, every time.</p>
                         </div>

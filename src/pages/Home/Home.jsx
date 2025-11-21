@@ -4,7 +4,7 @@ import HowItWorks from './HowItWorks/HowItWorks';
 
 const Home = () => {
     return (
-        <div>
+        <div className=''>
             <Banner></Banner>
             <HowItWorks></HowItWorks>
         </div>
