@@ -1,5 +1,4 @@
-import React from 'react';
-import { FaTruck } from 'react-icons/fa';
+import bookingIcon from '../../../assets/bookingIcon.png';
 
 const HowItWorks = () => {
 
@@ -30,7 +29,7 @@ const HowItWorks = () => {
                     objs.map((obj) =>
                         <div key={obj.id} className='bg-[#FFFFFF]
                             rounded-2xl p-8 shadow-md overflow-hidden border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer'>
-                            <FaTruck className='w-[30px] h-[35px] mb-2' />
+                            <img src={bookingIcon} alt="" />
                             <h3 className='font-bold mb-2'>{obj.name}</h3>
                             <p className=''>From personal packages to business shipments — we deliver on time, every time.</p>
                         </div>
