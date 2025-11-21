@@ -5,8 +5,8 @@ import Logo from '../../../components/logo/Logo';
 const Navbar = () => {
 
     const links = <>
-        <li><NavLink to="">Service</NavLink></li>
-        <li><NavLink to="">Coverage</NavLink></li>
+        <li><NavLink to="/service">Service</NavLink></li>
+        <li><NavLink to="/coverage">Coverage</NavLink></li>
         <li><NavLink to="">About Us</NavLink></li>
         <li><NavLink to="">Pricing</NavLink></li>
         <li><NavLink to="">Blog</NavLink></li>
