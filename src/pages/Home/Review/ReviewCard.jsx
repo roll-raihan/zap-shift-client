@@ -8,7 +8,7 @@ const ReviewCard = ({ review }) => {
     return (
         <div className="max-w-sm bg-white shadow-md rounded-2xl p-6 border border-gray-100">
             {/* Quote Icon */}
-            <div className="text-teal-300 text-4xl mb-3"><img src={quote} alt="" /></div>
+            <div className="text-teal-300 text-4xl mb-3"><img src={quote} alt="Icon of quote" /></div>
 
             {/* Review Text */}
             <p className="mb-6">
@@ -20,7 +20,7 @@ const ReviewCard = ({ review }) => {
             {/* Reviewer Info */}
             <div className="flex items-center gap-4 mt-4">
                 <div className="w-10 h-10 rounded-full bg-teal-900">
-                    <img src={user_photoURL} alt="" />
+                    <img src={user_photoURL} alt={userName} />
                 </div>
                 <div>
                     <h3 className="font-semibold text-gray-800">{userName}</h3>

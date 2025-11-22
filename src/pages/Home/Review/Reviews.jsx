@@ -3,24 +3,34 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Autoplay, EffectCoverflow, Pagination } from 'swiper/modules';
 import ReviewCard from './ReviewCard';
+import customerTop from '../../../assets/customer-top.png';
 
 
 const Reviews = ({ reviewPromise }) => {
 
     const reviews = use(reviewPromise);
-    // console.log(reviews)
+    // console.log(reviews) 
 
     return (
         <div className='my-24'>
-            <h2 className='font-bold text-3xl text-center mb-2'>What our customers are sayings</h2>
-            <p className='text-center text-wrap my-6'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
-            <div className=''>
+            <div className='items-center justify-center flex flex-col'>
+                <img className='my-2' src={customerTop} alt="Customer-top image" />
+                <h2 className='font-bold text-3xl text-center my-2'>What our customers are sayings</h2>
+                <p className='text-center text-wrap my-2'>Enhance posture, mobility, and well-being effortlessly with Posture Pro. Achieve proper alignment, reduce pain, and strengthen your body with ease!</p>
+            </div>
+            <div>
                 <Swiper
                     loop={true}
                     effect={'coverflow'}
                     grabCursor={true}
                     centeredSlides={true}
-                    slidesPerView={4}
+                    slidesPerView={1}
+                    breakpoints={{
+                        640: { slidesPerView: 1 },   // mobile
+                        768: { slidesPerView: 2 },   // tablet
+                        1024: { slidesPerView: 3 },  // small laptop
+                        1280: { slidesPerView: 4 },  // large desktop
+                    }}
                     coverflowEffect={{
                         rotate: 30,
                         stretch: '50%',
