@@ -12,6 +12,7 @@ const Banner = () => {
         <Carousel
         autoPlay={true}
         infiniteLoop={true}
+        className='mt-5 overflow-hidden rounded-2xl'
         >
             <div className='relative'>
                 <img src={bannerImg1} />

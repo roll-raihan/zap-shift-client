@@ -5,7 +5,7 @@ import { IoArrowBackSharp } from 'react-icons/io5';
 
 const ErrorPage = () => {
     return (
-        <div className='relative'>
+        <div className='relative mb-10 mt-5 rounded-2xl overflow-hidden'>
             <img src={errorPage} alt="" />
             <Link to='/' className='btn btn-primary text-black font-bold absolute bottom-3 right-4/12 left-4/12 text-wrap'><IoArrowBackSharp />Go Back Home</Link>
         </div>

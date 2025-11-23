@@ -26,9 +26,9 @@ const Coverage = () => {
     }
 
     return (
-        <div className='my-10'>
+        <div className='my-10 bg-white rounded-2xl overflow-hidden mt-10 mb-20 m-5'>
             <h2 className="text-4xl font-semibold text-center my-5">We are available in 64 districts</h2>
-            <div className='my-5 ml-5'>
+            <div className='my-5 flex flex-col items-center justify-center'>
                 <form onSubmit={handleSearchDistrict}>
                     <label className="input relative">
                         <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -48,8 +48,9 @@ const Coverage = () => {
                     </label>
                 </form>
             </div>
-            <div className='border h-[800px] w-full'>
-                <MapContainer center={position} zoom={8} scrollWheelZoom={false} ref={mapRef} className='h-[800px]'>
+            <div className='h-[800px] w-full flex flex-col'>
+                <h3 className='text-2xl font-bold my-5 text-center'>We deliver almost all over Bangladesh</h3>
+                <MapContainer center={position} zoom={8} scrollWheelZoom={false} ref={mapRef} className='h-[800px] rounded-2xl overflow-hidden ml-5 mr-5'>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
