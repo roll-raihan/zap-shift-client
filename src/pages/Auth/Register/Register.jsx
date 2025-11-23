@@ -1,17 +1,31 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
+import UseAuth from '../../../hooks/UseAuth';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+    const { registerUser } = UseAuth();
+
     const handleRegister = (data) => {
-        console.log(data);
+        // console.log(data);
+        registerUser(data.email, data.password)
+            .then(result => {
+                console.log(result.user);
+                toast("Account created successfully!!", { position: "top-center" })
+            })
+            .catch(error => {
+                console.log(error.message)
+                toast(error.message, { position: "top-center" })
+            })
     }
 
     return (
         <div className='border p-5 rounded-2xl card-body'>
+            <ToastContainer position="top-center" />
             <form onSubmit={handleSubmit(handleRegister)}>
                 <fieldset className="fieldset">
                     <label className="label">Email</label>
