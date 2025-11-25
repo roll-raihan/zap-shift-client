@@ -3,18 +3,45 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router';
 import UseAuth from '../../../hooks/UseAuth';
 import { ToastContainer, toast } from 'react-toastify';
+import axios from 'axios';
 
 const Register = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const { registerUser, signInWithGoogle } = UseAuth();
+    const { registerUser, signInWithGoogle, updateUserProfile } = UseAuth();
 
     const handleRegister = (data) => {
         // console.log(data);
+        const profileImage = data.photo[0];
+
         registerUser(data.email, data.password)
             .then(result => {
                 console.log(result.user);
+
+                // 1. store the image in form data
+                const formData = new FormData();
+                formData.append("image", profileImage);
+
+                // 2. send the photo to store and get the url
+                const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
+                axios.post(image_API_URL, formData)
+                    .then(res => {
+                        console.log('after image url', res.data.data.url);
+
+                        // update user profile to firebase
+                        const userProfile = {
+                            displayName: data.name,
+                            photoURL: res.data.data.url
+                        }
+                        updateUserProfile(userProfile)
+                            .then(() => {
+                                console.log("user profile updated");
+                            })
+                            .catch(error => {
+                                console.log(error)
+                            })
+                    })
                 toast("Account created successfully!!", { position: "top-center" })
             })
             .catch(error => {
