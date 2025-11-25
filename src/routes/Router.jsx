@@ -6,6 +6,8 @@ import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
 import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
+import PrivateRoute from "./PrivateRoute";
+import BeARider from "../pages/Rider/BeARider";
 
 export const router = createBrowserRouter([
     {
@@ -15,6 +17,12 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 Component: Home,
+            },
+            {
+                path: '/be-a-rider',
+                element: <PrivateRoute>
+                    <BeARider></BeARider>
+                </PrivateRoute>
             },
             {
                 path: '/coverage',
