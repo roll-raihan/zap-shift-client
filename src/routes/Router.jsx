@@ -14,6 +14,8 @@ import Mission from "../components/AboutUsComponent/Mission/Mission";
 import Success from "../components/AboutUsComponent/Success/Success";
 import TermsAndConditions from "../components/AboutUsComponent/Terms&Condition/TermsAndCondiotins";
 import SendParcel from "../pages/SendParcel/SendParcel";
+import DashboardLayout from "../layouts/DashboardLayout/DashboardLayout";
+import MyParcels from "../pages/Dashboard/MyParcels/MyParcels";
 
 export const router = createBrowserRouter([
     {
@@ -84,6 +86,18 @@ export const router = createBrowserRouter([
                 path: '/register',
                 Component: Register
             },
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <PrivateRoute>
+            <DashboardLayout></DashboardLayout>
+        </PrivateRoute>,
+        children: [
+            {
+                path: '/dashboard/my-parcels',
+                Component: MyParcels,
+            }
         ]
     }
 ]);
