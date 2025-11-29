@@ -9,7 +9,9 @@ const SendParcel = () => {
     const regionsDuplicate = serviceCenters.map(c => c.region);
     const regions = [...new Set(regionsDuplicate)];
     // console.log(regions);
+
     const senderRegion = useWatch({ control, name: 'senderRegion' });
+    const receiverRegion = useWatch({ control, name: 'receiverRegion' });
 
     // filtering districts of selected region
     const districtByRegion = region => {
@@ -69,8 +71,8 @@ const SendParcel = () => {
                         <input type="email" {...register('senderEmail')} className="input w-full" placeholder="Sender Email" />
 
                         {/* region */}
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">Region</legend>
+                        <fieldset className="fieldset text-gray-500">
+                            <legend>Region</legend>
                             <select defaultValue="Pick your region" {...register('senderRegion')} className="select w-full">
                                 <option disabled={true}>Pick your region</option>
                                 {
@@ -81,8 +83,8 @@ const SendParcel = () => {
                         </fieldset>
 
                         {/* district */}
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend">Sender District</legend>
+                        <fieldset className="fieldset text-gray-500">
+                            <legend>Sender District</legend>
                             <select defaultValue="Pick your District" {...register('senderDistrict')} className="select w-full">
                                 <option disabled={true}>Pick your District</option>
                                 {
@@ -113,14 +115,35 @@ const SendParcel = () => {
                         <label className="label">Receiver Email</label>
                         <input type="email" {...register('receiverEmail')} className="input w-full" placeholder="Receiver Email" />
 
+                        {/* region */}
+                        <fieldset className="fieldset text-gray-500">
+                            <legend className="">Region</legend>
+                            <select defaultValue="Pick your region" {...register('receiverRegion')} className="select w-full">
+                                <option disabled={true}>Pick your region</option>
+                                {
+                                    regions.map((r, i) => <option key={i} value={r}>{r}</option>)
+                                }
+
+                            </select>
+                        </fieldset>
+
+                        {/* district */}
+                        <fieldset className="fieldset text-gray-500">
+                            <legend>Receiver District</legend>
+                            <select defaultValue="Pick your District" {...register('receiverDistrict')} className="select w-full">
+                                <option disabled={true}>Pick your District</option>
+                                {
+                                    districtByRegion(receiverRegion).map((r, i) => <option key={i} value={r}>{r}</option>)
+                                }
+
+                            </select>
+                        </fieldset>
+
                         <label className="label">Address</label>
                         <input type="text" {...register('receiverAddress')} className="input w-full" placeholder="Receiver Address" />
 
                         <label className="label">Receiver Contact No.</label>
                         <input type="number" {...register('receiverPhone')} className="input w-full" placeholder="Receiver Contact No." />
-
-                        <label className="label">Receiver District</label>
-                        <input type="text" {...register('receiverDistrict')} className="input w-full" placeholder="Receiver District" />
 
                         <label className="label">Delivery Instruction</label>
                         <textarea className="textarea w-full" {...register('deliveryInstruction')} placeholder="Delivery Instruction"></textarea>
