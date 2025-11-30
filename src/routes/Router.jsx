@@ -16,6 +16,7 @@ import TermsAndConditions from "../components/AboutUsComponent/Terms&Condition/T
 import SendParcel from "../pages/SendParcel/SendParcel";
 import DashboardLayout from "../layouts/DashboardLayout/DashboardLayout";
 import MyParcels from "../pages/Dashboard/MyParcels/MyParcels";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
     {
@@ -97,6 +98,10 @@ export const router = createBrowserRouter([
             {
                 path: '/dashboard/my-parcels',
                 Component: MyParcels,
+            },
+            {
+                path: '/dashboard/payment/:parcelID',
+                Component: Payment
             }
         ]
     }
