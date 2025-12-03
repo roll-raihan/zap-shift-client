@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import UseAuth from '../../../hooks/UseAuth';
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
+import UseAxiosSecure from '../../../hooks/UseAxiosSecure';
 
 const Register = () => {
 
@@ -12,14 +13,14 @@ const Register = () => {
     const { registerUser, signInWithGoogle, updateUserProfile } = UseAuth();
     const location = useLocation();
     const navigate = useNavigate();
+    const axiosSecure = UseAxiosSecure();
 
     const handleRegister = (data) => {
         // console.log(data);
         const profileImage = data.photo[0];
 
         registerUser(data.email, data.password)
-            .then(result => {
-                console.log(result.user);
+            .then(() => {
 
                 // 1. store the image in form data
                 const formData = new FormData();
@@ -29,12 +30,25 @@ const Register = () => {
                 const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
                 axios.post(image_API_URL, formData)
                     .then(res => {
-                        console.log('after image url', res.data.data.url);
+                        const photoURL = res.data.data.url;
+
+                        // create user in the db
+                        const userInfo = {
+                            email: data.email,
+                            displayName: data.name,
+                            photoURL: photoURL
+                        }
+                        axiosSecure.post('/users', userInfo)
+                            .then(res => {
+                                if (res.data.insertedId) {
+                                    console.log('user created in the database')
+                                }
+                            })
 
                         // update user profile to firebase
                         const userProfile = {
                             displayName: data.name,
-                            photoURL: res.data.data.url
+                            photoURL: photoURL
                         }
                         updateUserProfile(userProfile)
                             .then(() => {
@@ -61,7 +75,7 @@ const Register = () => {
                 toast("Logged in successfully!!", { position: "top-center" })
             })
             .catch(error => {
-                console.log(error.message)
+                // console.log(error.message)
                 toast(error.message, { position: "top-center" })
             })
     }
