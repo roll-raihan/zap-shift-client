@@ -69,9 +69,23 @@ const Register = () => {
 
     const handleGoogleSignIn = () => {
         signInWithGoogle()
-            .then(() => {
-                // console.log(result.user);
-                navigate(location?.state || '/')
+            .then((result) => {
+                console.log(result.user);
+
+                // create user in the db
+                const userInfo = {
+                    email: result.user.email,
+                    displayName: result.user.displayName,
+                    photoURL: result.user.photoURL
+                }
+                axiosSecure.post('/users', userInfo)
+                    .then(res => {
+                        if (res.data.insertedId) {
+                            console.log('user created in the database')
+                            navigate(location?.state || '/')
+                        }
+                    })
+
                 toast("Logged in successfully!!", { position: "top-center" })
             })
             .catch(error => {

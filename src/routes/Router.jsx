@@ -34,7 +34,9 @@ export const router = createBrowserRouter([
                 path: '/be-a-rider',
                 element: <PrivateRoute>
                     <BeARider></BeARider>
-                </PrivateRoute>
+                </PrivateRoute>,
+                loader: () => fetch('/warehouses.json'),
+                hydrateFallbackElement: <span className="loading loading-infinity loading-xl"></span>
             },
             {
                 path: '/send-parcel',
@@ -103,8 +105,8 @@ export const router = createBrowserRouter([
                 Component: MyParcels,
             },
             {
-                path:'payment-history',
-                Component:PaymentHistory
+                path: 'payment-history',
+                Component: PaymentHistory
             },
             {
                 path: '/dashboard/payment/:parcelID',
