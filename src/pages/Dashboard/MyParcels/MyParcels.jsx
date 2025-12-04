@@ -21,7 +21,7 @@ const MyParcels = () => {
     })
 
     const handleParcelDelete = id => {
-        console.log(id);
+        // console.log(id);
         Swal.fire({
             title: "Are you sure?",
             text: "This parcel will be deleted.",

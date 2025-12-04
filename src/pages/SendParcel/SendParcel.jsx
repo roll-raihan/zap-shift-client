@@ -73,7 +73,7 @@ const SendParcel = () => {
                 axiosSecure.post('/parcels', data)
                     .then(res => {
                         
-                        console.log('after confirming parcel', res.data);
+                        // console.log('after confirming parcel', res.data);
                         
                         if (res.data.insertedId) {
                             navigate('/dashboard/my-parcels')

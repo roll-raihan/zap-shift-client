@@ -41,7 +41,7 @@ const Register = () => {
                         axiosSecure.post('/users', userInfo)
                             .then(res => {
                                 if (res.data.insertedId) {
-                                    console.log('user created in the database')
+                                    // console.log('user created in the database')
                                 }
                             })
 
@@ -62,7 +62,7 @@ const Register = () => {
                 toast("Account created successfully!!", { position: "top-center" })
             })
             .catch(error => {
-                console.log(error.message)
+                // console.log(error.message)
                 toast(error.message, { position: "top-center" })
             })
     }
@@ -70,7 +70,7 @@ const Register = () => {
     const handleGoogleSignIn = () => {
         signInWithGoogle()
             .then((result) => {
-                console.log(result.user);
+                // console.log(result.user);
 
                 // create user in the db
                 const userInfo = {
@@ -81,7 +81,7 @@ const Register = () => {
                 axiosSecure.post('/users', userInfo)
                     .then(res => {
                         if (res.data.insertedId) {
-                            console.log('user created in the database')
+                            // console.log('user created in the database')
                             navigate(location?.state || '/')
                         }
                     })

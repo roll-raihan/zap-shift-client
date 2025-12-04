@@ -21,7 +21,7 @@ const Login = () => {
                 toast("Logged in successfully!!", { position: "top-center" });
             })
             .catch(error => {
-                console.log(error.message)
+                // console.log(error.message)
                 toast(error.message, { position: "top-center" })
             })
     }
@@ -34,7 +34,7 @@ const Login = () => {
                 toast("Logged in successfully!!", { position: "top-center" })
             })
             .catch(error => {
-                console.log(error.message)
+                // console.log(error.message)
                 toast(error.message, { position: "top-center" })
             })
     }

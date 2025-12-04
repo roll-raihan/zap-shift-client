@@ -13,7 +13,7 @@ const Navbar = () => {
                 toast("Logged out successfully!", { position: "top-center" })
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 toast(error.message, { position: "top-center" })
             })
     }
