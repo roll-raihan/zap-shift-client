@@ -16,11 +16,13 @@ const ApproveRiders = () => {
         }
     })
 
-    const updateRiderStatus = (id, status) => {
+    const updateRiderStatus = (rider, status) => {
         const updateInfo = {
-            status: status
+            status: status,
+            email: rider.riderEmail
         }
-        axiosSecure.patch(`/riders/${id}`, updateInfo)
+        console.log(updateInfo)
+        axiosSecure.patch(`/riders/${rider._id}`, updateInfo)
             .then(res => {
                 if (res.data.modifiedCount) {
                     refetch();
@@ -35,12 +37,12 @@ const ApproveRiders = () => {
             })
     }
 
-    const handleRiderApproval = id => {
-        updateRiderStatus(id, 'approved');
+    const handleRiderApproval = rider => {
+        updateRiderStatus(rider, 'approved');
     }
 
-    const handleRiderRejection = id => {
-        updateRiderStatus(id, 'rejected')
+    const handleRiderRejection = rider => {
+        updateRiderStatus(rider, 'rejected')
     }
 
     return (
@@ -69,12 +71,12 @@ const ApproveRiders = () => {
                                 </td>
                                 <td>
                                     <button
-                                        onClick={() => handleRiderApproval(rider._id)}
+                                        onClick={() => handleRiderApproval(rider)}
                                         className='btn btn-sm'>
                                         <FaUserCheck />
                                     </button>
                                     <button
-                                        onClick={() => handleRiderRejection(rider._id)}
+                                        onClick={() => handleRiderRejection(rider)}
                                         className='btn btn-sm'>
                                         <IoPersonRemoveSharp />
                                     </button>
