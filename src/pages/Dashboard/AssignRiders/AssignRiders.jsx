@@ -8,6 +8,8 @@ const AssignRiders = () => {
     const axiosSecure = UseAxiosSecure();
     const riderModalRef = useRef();
     const [selectedParcel, setSelectedParcel] = useState(null);
+    const [searchDistrict, setSearchDistrict] = useState(null); // Separate state for query
+    
     const { data: parcels = [], refetch: parcelsRefetch } = useQuery({
         queryKey: ['parcels', 'pending-pickup'],
         queryFn: async () => {
@@ -16,21 +18,21 @@ const AssignRiders = () => {
         }
     })
 
-    // TODO: invalidate query after assigning a rider
     const { data: riders = [] } = useQuery({
-        queryKey: ['riders', selectedParcel?.senderDistrict, 'available'],
-        // above key should be selectedParcel.senderDistrict but,there something wrong. I am unable to get. 
-        enabled: !!selectedParcel,
+        queryKey: ['riders', searchDistrict, 'available'],
+        enabled: !!searchDistrict,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/riders?status=approved&district=${selectedParcel?.senderDistrict}&workStatus=available`);
+            const res = await axiosSecure.get(`/riders?status=approved&district=${searchDistrict}&workStatus=available`);
             return res.data;
         }
     })
 
     const openAssignRiderModel = parcel => {
-        setSelectedParcel(parcel)
-        console.log(parcel.senderDistrict)
-        riderModalRef.current.showModal()
+        setSelectedParcel(parcel);
+        setSearchDistrict(parcel.senderDistrict); // This triggers the query
+        console.log('Selected Parcel:', parcel);
+        console.log('Sender District:', parcel.senderDistrict);
+        riderModalRef.current.showModal();
     }
 
     const handleAssignRider = rider => {
@@ -44,6 +46,8 @@ const AssignRiders = () => {
             .then(res => {
                 if (res.data.modifiedCount) {
                     riderModalRef.current.close();
+                    setSelectedParcel(null);
+                    setSearchDistrict(null); // Reset search
                     parcelsRefetch();
                     Swal.fire({
                         position: "center",
@@ -56,13 +60,11 @@ const AssignRiders = () => {
             })
     }
 
-
     return (
         <div className='my-5 bg-white rounded-2xl overflow-hidden mb-20 m-5 p-10'>
             <h2 className="text-4xl font-bold text-secondary">Assign Riders: {parcels.length}</h2>
             <div className="overflow-x-auto">
                 <table className="table table-zebra">
-                    {/* head */}
                     <thead>
                         <tr>
                             <th></th>
@@ -87,19 +89,18 @@ const AssignRiders = () => {
                                     </td>
                                 </tr>)
                         }
-
                     </tbody>
                 </table>
             </div>
 
-            {/*  */}
             <dialog ref={riderModalRef} className="modal modal-bottom sm:modal-middle">
                 <div className="modal-box">
-                    <h3 className="font-bold text-lg">Riders : {riders.length}!</h3>
+                    <h3 className="font-bold text-lg">
+                        Riders in {searchDistrict}: {riders.length}
+                    </h3>
 
                     <div className="overflow-x-auto my-5">
                         <table className="table table-zebra">
-                            {/* head */}
                             <thead>
                                 <tr>
                                     <th></th>
@@ -109,7 +110,7 @@ const AssignRiders = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {
+                                {riders.length > 0 ? (
                                     riders.map((rider, i) =>
                                         <tr key={rider._id}>
                                             <th>{i + 1}</th>
@@ -119,20 +120,24 @@ const AssignRiders = () => {
                                                 <button onClick={() => handleAssignRider(rider)} className='btn btn-primary text-black'>Assign</button>
                                             </td>
                                         </tr>)
-                                }
+                                ) : (
+                                    <tr>
+                                        <td colSpan="4" className="text-center py-4">
+                                            No available riders in this district
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
 
                     <div className="modal-action">
                         <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
-                            <button className="btn">Close</button>
+                            <button className="btn" onClick={() => setSearchDistrict(null)}>Close</button>
                         </form>
                     </div>
                 </div>
             </dialog>
-            {/*  */}
         </div>
     );
 };
