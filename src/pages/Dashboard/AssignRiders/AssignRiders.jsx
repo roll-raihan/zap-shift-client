@@ -1,13 +1,14 @@
 import React, { useRef, useState } from 'react';
 import UseAxiosSecure from '../../../hooks/UseAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
+import Swal from 'sweetalert2';
 
 const AssignRiders = () => {
 
     const axiosSecure = UseAxiosSecure();
     const riderModalRef = useRef();
     const [selectedParcel, setSelectedParcel] = useState(null);
-    const { data: parcels = [] } = useQuery({
+    const { data: parcels = [], refetch: parcelsRefetch } = useQuery({
         queryKey: ['parcels', 'pending-pickup'],
         queryFn: async () => {
             const res = await axiosSecure.get('/parcels?deliveryStatus=pending-pickup')
@@ -15,6 +16,7 @@ const AssignRiders = () => {
         }
     })
 
+    // TODO: invalidate query after assigning a rider
     const { data: riders = [] } = useQuery({
         queryKey: ['riders', selectedParcel?.senderDistrict, 'available'],
         // above key should be selectedParcel.senderDistrict but,there something wrong. I am unable to get. 
@@ -38,7 +40,20 @@ const AssignRiders = () => {
             riderEmail: rider.email,
             parcelId: selectedParcel._id
         };
-        axiosSecure.patch(``, riderAssignInfo)
+        axiosSecure.patch(`/parcels/${selectedParcel._id}`, riderAssignInfo)
+            .then(res => {
+                if (res.data.modifiedCount) {
+                    riderModalRef.current.close();
+                    parcelsRefetch();
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: `Rider has been assigned.`,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }
+            })
     }
 
 
@@ -68,7 +83,7 @@ const AssignRiders = () => {
                                     <td>{parcel.createdAt}</td>
                                     <td>{parcel.senderDistrict}</td>
                                     <td>
-                                        <button onClick={() => openAssignRiderModel(parcel)} className="btn btn-secondary">Assign Rider</button>
+                                        <button onClick={() => openAssignRiderModel(parcel)} className="btn btn-primary text-black">Find Riders</button>
                                     </td>
                                 </tr>)
                         }
